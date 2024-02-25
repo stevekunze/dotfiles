@@ -21,6 +21,10 @@
     - name: Sublime-Text download 
       shell: wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null # not best practice
   
+    - name: Add nginx stable repository from PPA and install its signing key on Ubuntu target
+      ansible.builtin.apt_repository:
+        repo: ppa:aslatter/ppa
+
     - name: install packages using apt
       when: ansible_os_family == 'Debian'
       ansible.builtin.apt:
