@@ -66,13 +66,14 @@
           - net.sourceforge.pdfchain   
           - org.tenacityaudio.Tenacity
           
-    - name: Install musikcube and ulauncher via deb
+    - name: Install musikcube and ulauncher via deb. Make sure to to update the link from time to time. checkout github pages!
       ansible.builtin.apt:
         deb: "{{ item }}"
-        state: present # make sure to to update the link from time to time. checkout musikcube github page. 
+        state: present # make sure to to update the link from time to time. checkout github pages. 
       with_items:
           - https://github.com/Ulauncher/Ulauncher/releases/download/5.15.6/ulauncher_5.15.6_all.deb
           - https://github.com/clangen/musikcube/releases/download/3.0.2/musikcube_3.0.2_linux_x86_64.deb
+          - https://download.virtualbox.org/virtualbox/7.0.14/virtualbox-7.0_7.0.14-161095~Ubuntu~jammy_amd64.deb # might want to remove in the future when vagrant/vbox issue is resolved
 
     - name: install starship prompt 
       shell: 'curl -sS https://starship.rs/install.sh | sh'
