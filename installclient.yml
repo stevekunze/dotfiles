@@ -1,0 +1,114 @@
+---
+- name: setup desktop machone
+  hosts: 127.0.0.1
+  become: true 
+  connection: local 
+  gather_facts: true 
+  
+  tasks:
+    - name: required libraries for brave
+      ansible.builtin.apt:
+        name: ["curl", "apt-transport-https"]
+
+    - name: Brave Browser archive-keyring.gpg download
+      get_url:
+        url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+        dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
+   
+    - name: Brave Browser PPA setting
+      shell: echo 'deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main' | tee /etc/apt/sources.list.d/brave-browser-release.list
+   
+    - name: Sublime-Text download 
+      shell: wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
+
+    - name: Add KeepasXC stable repository from PPA and install its signing key on Debian target
+      ansible.builtin.apt_repository:
+        repo: "{{ item }}"
+        state: present
+      with_items: 
+      - ppa:phoerious/keepassxc
+      - ppa:tomtomtom/yt-dlp
+  
+    - name: install packages using apt
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: true  
+      with_items:
+        - brave-browser
+        - keepassxc
+        - yt-dlp 
+        - restic
+        - git
+        - mc
+        - vagrant
+        - unattended-upgrades
+        - tmux
+        - zsh
+        - neofetch
+        - flatpak
+        - wget 
+        - pip
+        - tree
+        - nala
+        - exa 
+        - cifs-utils
+        - davfs2 
+        - alacritty
+        - micro
+        - sublime-text
+
+    - name:  insall software as flatpak   
+      community.general.flatpak:
+        name: "{{ item }}"
+        state: present 
+        method: user
+      with_items:
+          - ch.protonmail.protonmail-bridge
+          - com.github.eneshecan.WhatsAppForLinux 
+          - eu.betterbird.Betterbird
+          - md.obsidian.Obsidian
+          - org.onlyoffice.desktopeditors
+          - com.nextcloud.desktopclient.nextcloud 
+          - net.sourceforge.pdfchain   
+          - org.tenacityaudio.Tenacity
+          
+    - name: Install musikcube command line musicplayer "3.0.2" via deb
+      ansible.builtin.apt:
+        deb: https://github.com/clangen/musikcube/releases/download/3.0.2/musikcube_3.0.2_linux_x86_64.deb # make sure to to update the link from time to time. checkout musikcube github page. 
+  
+    - name: install starship prompt 
+      shell: 'curl -sS https://starship.rs/install.sh | sh'
+        
+    - name: install tmux plugin manager
+      ansible.builtin.git:
+        repo: 'https://github.com/tmux-plugins/tpm.git'
+        dest: "~{{ remote_regular_user }}/.tmux/plugins/tpm"
+        owner: {{ remote_regular_user }}
+        
+    - name: install zap for zsh plugin management 
+      shell: zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
+
+    - name: create directory .fonts exists in ~
+      ansible.builtin.file:
+        path: "/~{{ remote_regular_user }}/.fonts"
+        state: directory
+        mode: '0755' # not sure if this is neccessary
+    
+    - name: check if nerdfont Hack exists #https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip
+        ansible.builtin.shell: "ls ~{{ remote_regular_user }}/.fonts/Hack"
+        resgister: hack_exists
+        ignore_errors: true 
+        changed_when: false
+  
+    - name: Download Hack and unzip it
+        when: hack_exists is failed
+        ansible.builtin.unarchive:
+          src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip
+
+    - name: create directory mount directory for restic
+      ansible.builtin.file:
+        path: "/~{{ remote_regular_user }}/resticmnt"
+        state: directory
+        mode: '0755' # not sure if this is neccessary
