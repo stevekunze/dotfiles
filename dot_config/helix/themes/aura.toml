@@ -1,0 +1,91 @@
+# Aura Helix Theme
+# Inspired by Dalton Menezes' Aura Theme
+# Adapted from Neon City Helix Theme
+
+"attribute" = { fg = "blue" }
+"comment" = { fg = "gray", modifiers = ["italic"] }
+"comment.block" = { fg = "gray", modifiers = ["italic"] }
+"comment.block.documentation" = { fg = "gray", modifiers = ["italic"] }
+"constant" = { fg = "magenta" }
+"constant.numeric" = { fg = "orange" }
+"constructor" = { fg = "magenta" }
+"function" = { fg = "green" }
+"function.builtin" = { fg = "cyan" }
+"function.method" = { fg = "green" }
+"keyword" = { fg = "magenta" }
+"label" = { fg = "pink" }
+"namespace" = { fg = "orange" }
+"operator" = { fg = "pink" }
+"punctuation.bracket" = { fg = "fg" }
+"punctuation.delimiter" = { fg = "pink" }
+"punctuation.special" = { fg = "pink" }
+"string" = { fg = "green" }
+"tag" = { fg = "magenta" }
+"type" = { fg = "cyan" }
+"variable" = { fg = "fg" }
+"variable.parameter" = { fg = "orange", modifiers = ["italic"] }
+"variable.other.member" = { fg = "cyan" }
+
+"markup.bold" = { fg = "orange", modifiers = ["bold"] }
+"markup.italic" = { fg = "magenta", modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.heading" = { fg = "magenta", modifiers = ["bold"] }
+"markup.link.url" = { fg = "cyan", modifiers = ["underline"] }
+"markup.link.text" = { fg = "pink" }
+"markup.list" = { fg = "magenta" }
+"markup.quote" = { fg = "green", modifiers = ["italic"] }
+"markup.raw.block" = { fg = "green" }
+"markup.raw.inline" = { fg = "green" }
+
+"diff.plus" = { fg = "green" }
+"diff.minus" = { fg = "red" }
+"diff.delta" = { fg = "blue" }
+
+"ui.background" = { bg = "bg" }
+"ui.cursor" = { bg = "magenta", fg = "bg" }
+"ui.cursor.match" = { fg = "orange", modifiers = ["bold"] }
+"ui.cursorline" = { bg = "bg-soft" }
+"ui.linenr" = { fg = "base4" }
+"ui.linenr.selected" = { fg = "fg", bg = "bg-soft", modifiers = ["bold"] }
+"ui.statusline" = { fg = "fg", bg = "bg-dark" }
+"ui.statusline.normal" = { bg = "bg-dark" }
+"ui.statusline.insert" = { bg = "bg-dark" }
+"ui.statusline.select" = { bg = "bg-dark" }
+"ui.bufferline" = { fg = "gray", bg = "bg-dark" }
+"ui.bufferline.active" = { fg = "magenta", bg = "bg", modifiers = ["bold"] }
+"ui.popup" = { bg = "bg-soft" }
+"ui.window" = { fg = "base4" }
+"ui.help" = { fg = "fg", bg = "bg-soft" }
+"ui.text" = { fg = "fg" }
+"ui.selection" = { bg = "selection" }
+"ui.virtual.whitespace" = { fg = "base4" }
+
+"warning" = { fg = "orange" }
+"error" = { fg = "red", modifiers = ["bold"] }
+"info" = { fg = "blue" }
+"hint" = { fg = "cyan" }
+
+"diagnostic.hint" = { underline = { color = "cyan", style = "curl" } }
+"diagnostic.error" = { underline = { color = "red", style = "curl" } }
+"diagnostic.info" = { underline = { color = "blue", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "orange", style = "curl" } }
+
+"special" = { fg = "pink" }
+
+[palette]
+# Official Aura Colors
+bg       = "#15141b"
+bg-soft  = "#1d1c23"
+bg-dark  = "#110f18"
+fg       = "#edecee"
+selection = "#3d375e"
+
+magenta  = "#a277ff" # Main Purple
+pink     = "#f694ff"
+green    = "#61ffca"
+cyan     = "#82e2ff"
+orange   = "#ffca85"
+red      = "#ff6767"
+blue     = "#338ad4"
+gray     = "#6d6d6d"
+base4    = "#4d4d4d"

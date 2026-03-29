@@ -1,0 +1,15 @@
+themes {
+    aura {
+        fg "#EDE4F7"
+        bg "#15141b"
+        black "#15141b"
+        red "#ff6767"
+        green "#61ffca"
+        yellow "#ffca85"
+        blue "#82e2ff"
+        magenta "#a277ff"
+        cyan "#82e2ff"
+        white "#EDE4F7"
+        orange "#ffca85"
+    }
+}

@@ -1,0 +1,68 @@
+**Creating Superfile configuration**
+
+I need to produce a Superfile config, replacing colors with the aura darkSoft equivalents, like mapping variables for full_screen_fg/bg. I'll utilize the darkSoft palette with specific hex values. It's essential to provide a config file that includes header metadata and follows formatting rules, ensuring a plain output. I’ll include the required hex values, using consistent lowercase, and clean the config as I go. Let’s get started on that!# name = "Aura DarkSoft (Superfile)"
+# author = "daltonmenezes (ported)"
+# description = "Aura darkSoft color palette port for Superfile"
+
+###############################################################################
+#                           Code Syntax Highlighting                          #
+###############################################################################
+code_syntax_highlight = "catppuccin-mocha"
+
+###############################################################################
+#                                 Base Colors                                 #
+###############################################################################
+
+#-- Full Screen
+full_screen_fg = "#edecee"
+full_screen_bg = "#15141b"
+
+#-- Gradient
+# Note: This currently only supports two colors.
+gradient_color = ["#82e2ff", "#a277ff"]
+
+#-- File Panel
+file_panel_fg = "#edecee"
+file_panel_bg = "#15141b"
+file_panel_border = "#6d6d6d"
+file_panel_border_active = "#a277ff"
+file_panel_top_directory_icon = "#61ffca"
+file_panel_top_path = "#82e2ff"
+file_panel_item_selected_fg = "#82e2ff"
+file_panel_item_selected_bg = "#15141b"
+
+#-- Footer
+footer_fg = "#edecee"
+footer_bg = "#15141b"
+footer_border = "#6d6d6d"
+footer_border_active = "#54c59f"
+
+#-- Sidebar
+sidebar_fg = "#edecee"
+sidebar_bg = "#15141b"
+sidebar_title = "#82e2ff"
+sidebar_border = "#15141b"
+sidebar_border_active = "#ffca85"
+sidebar_item_selected_fg = "#a277ff"
+sidebar_item_selected_bg = "#15141b"
+sidebar_divider = "#6d6d6d"
+
+#-- Modals
+modal_fg = "#edecee"
+modal_bg = "#15141b"
+modal_border_active = "#6d6d6d"
+modal_cancel_fg = "#15141b"
+modal_cancel_bg = "#ffca85"
+modal_confirm_fg = "#15141b"
+modal_confirm_bg = "#82e2ff"
+
+#-- Help Menu
+help_menu_hotkey = "#82e2ff"
+help_menu_title = "#ffca85"
+
+#-- Special
+cursor = "#edecee"
+correct = "#61ffca"
+error = "#ff6767"
+hint = "#82e2ff"
+cancel = "#ffca85"
