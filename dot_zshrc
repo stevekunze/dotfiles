@@ -77,6 +77,9 @@ export RESTIC_REPOSITORY_FILE=/home/steve/.restic/resticrepo
 #load fastfetch on startup
 fastfetch
 PATH="$HOME/bin:$PATH"
+#fzf shortcuts 
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
 # shift movement
 # Source - https://stackoverflow.com/a/30899296
