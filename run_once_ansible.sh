@@ -35,12 +35,14 @@ if ansible-galaxy collection list --format yaml 2>/dev/null | grep -q "^  - name
 else
   printf '%s\n' "Installing collection '${COLLECTION}'..."
   ansible-galaxy collection install "${COLLECTION}"
-  if ansible-galaxy collection list --format yaml 2>/dev/null | grep -q "^  - name: ${COLLECTION}$"; then
+fi
+
+if ansible-galaxy collection list --format yaml 2>/dev/null | grep -q "^  - name: ${COLLECTION}$"; then
     printf '%s\n' "Collection '${COLLECTION}' successfully installed."
   else
     printf '%s\n' "Failed to install collection '${COLLECTION}'." >&2
     exit 1
-  fi
 fi
+
 
 exit 0
