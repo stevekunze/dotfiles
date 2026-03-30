@@ -31,8 +31,8 @@ pacman_packages: # insert a list of packages here
   - keepassxc
   - obs-studio
   - brave-browser
-npm_packages: 
-  - ansible-language-server
+yay_packages: 
+  - vscodium
 nerd_font_filename: "Hack.zip" 
 nerd_font_url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip"
 fonts_dir: "{{ lookup('env','HOME') }}/.fonts"

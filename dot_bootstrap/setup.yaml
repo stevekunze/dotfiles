@@ -98,6 +98,13 @@
         line: '"{{ remote_regular_user }}" ALL=(ALL) NOPASSWD: ALL'
         validate: /usr/sbin/visudo -cf %s
 
+    - name: Install packages using yay.
+      kewlfft.aur.aur:
+        name: "{{ yay_packages }}"
+        state: present
+      become: true
+      become_user: "{{ remote_regular_user }}"
+
     - name: Allow ssh for non-root users with pubkey only.
       ansible.builtin.lineinfile:
         path: /etc/ssh/sshd_config
