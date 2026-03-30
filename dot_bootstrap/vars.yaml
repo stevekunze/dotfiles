@@ -18,7 +18,6 @@ pacman_packages: # insert a list of packages here
   - zoxide
   - eza
   - sshfs
-  - vscodium
   - id3v2
   - cmus
   - tldr

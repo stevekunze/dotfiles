@@ -105,6 +105,13 @@
       become: true
       become_user: "{{ remote_regular_user }}"
 
+    - name: Make zsh the default shell
+      ansible.builtin.user:
+        name: "{{ remote_regular_user }}"
+        shell: /bin/zsh
+      become: true
+      become_user: "{{ remote_regular_user }}"
+
     - name: Allow ssh for non-root users with pubkey only.
       ansible.builtin.lineinfile:
         path: /etc/ssh/sshd_config
