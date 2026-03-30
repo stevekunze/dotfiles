@@ -4,6 +4,9 @@ pacman_packages: # insert a list of packages here
   - micro
   - helix
   - btop
+  - curl
+  - wget
+  - npm
   - unzip
   - fastfetch
   - superfile
