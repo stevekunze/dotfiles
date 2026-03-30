@@ -3,26 +3,44 @@ set -euo pipefail
 
 # Check for pacman
 if ! command -v pacman >/dev/null 2>&1; then
-  echo "Error: pacman not found. This script requires pacman (Arch Linux / derivatives)." >&2
+  printf '%s\n' "Error: pacman not found. This script requires pacman (Arch Linux / derivatives)." >&2
   exit 1
 fi
 
 # Check if ansible is installed
 if pacman -Qs '^ansible$' >/dev/null 2>&1; then
-  echo "Ansible is already installed."
-  exit 0
+  printf '%s\n' "Ansible is already installed."
+else
+  printf '%s\n' "Ansible not found. Installing with pacman..."
+  sudo pacman -Syu --noconfirm ansible
+  if pacman -Qs '^ansible$' >/dev/null 2>&1; then
+    printf '%s\n' "Ansible successfully installed."
+  else
+    printf '%s\n' "Failed to install Ansible." >&2
+    exit 1
+  fi
 fi
 
-echo "Ansible not found. Installing with pacman..."
-
-# Update package database and install ansible
-sudo pacman -Syu --noconfirm ansible
-
-# Verify installation
-if pacman -Qs '^ansible$' >/dev/null 2>&1; then
-  echo "Ansible successfully installed."
-  exit 0
-else
-  echo "Failed to install Ansible." >&2
+# Ensure ansible-galaxy is available
+if ! command -v ansible-galaxy >/dev/null 2>&1; then
+  printf '%s\n' "Error: ansible-galaxy command not found after installing Ansible." >&2
   exit 1
 fi
+
+COLLECTION="kewlfft.aur"
+
+# Check installed collections (robust parsing)
+if ansible-galaxy collection list --format yaml 2>/dev/null | grep -q "^  - name: ${COLLECTION}$"; then
+  printf '%s\n' "Collection '${COLLECTION}' is already installed."
+else
+  printf '%s\n' "Installing collection '${COLLECTION}'..."
+  ansible-galaxy collection install "${COLLECTION}"
+  if ansible-galaxy collection list --format yaml 2>/dev/null | grep -q "^  - name: ${COLLECTION}$"; then
+    printf '%s\n' "Collection '${COLLECTION}' successfully installed."
+  else
+    printf '%s\n' "Failed to install collection '${COLLECTION}'." >&2
+    exit 1
+  fi
+fi
+
+exit 0

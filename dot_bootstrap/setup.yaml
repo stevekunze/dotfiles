@@ -91,12 +91,6 @@
         force: false
         mode: '0600'
 
-    - name: Copy the public key for the new user.
-      ansible.builtin.lineinfile:
-        path: "/home/{{ remote_regular_user }}/.ssh/authorized_keys"
-        line: "{{ server_setup_pub_key }}"
-        state: present
-
     - name: Passwordless sudo for the new user.
       ansible.builtin.lineinfile:
         path: /etc/sudoers
