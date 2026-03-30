@@ -1,0 +1,37 @@
+---
+# vars file for server_setup
+pacman_packages: # insert a list of packages here
+  - micro
+  - helix
+  - btop
+  - unzip
+  - fastfetch
+  - superfile
+  - alacritty
+  - chezmoi
+  - git
+  - lazygit
+  - nexcloud-desktop
+  - starship
+  - fzf
+  - zsh
+  - zoxide
+  - eza
+  - sshfs
+  - vscodium
+  - id3v2
+  - cmus
+  - tldr
+  - zellij
+  - obsidian
+  - libreoffice-still
+  - yt-dlp
+  - restic
+  - timehsift
+  - keepassxc
+  - obs-project
+  - brave-browser
+hack_nerd_font_filename: "Hack.zip"
+hack_nerd_font_url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip"
+fonts_dir: "{{ lookup('env','HOME') }}/.fonts"
+tmp_download_path: "/tmp/{{ hack_nerd_font_filename }}"

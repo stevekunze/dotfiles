@@ -1,0 +1,122 @@
+---
+- name: Setup Arch Based Linux Client.
+  hosts: localhost
+  gather_facts: true
+  connection: local
+  become: true
+
+  handlers:
+    - name: Restart ssh
+      ansible.builtin.service:
+        name: 'sshd'
+        state: restarted
+
+  vars_files:
+    vars.yaml
+
+  tasks:
+    - name: Get my Username.
+      ansible.builtin.set_fact:
+        remote_regular_user: "{{ ansible_env['SUDO_USER'] or ansible_user_id }}"
+
+    - name: Run the equivalent of "pacman -Syu" as a separate step.
+      community.general.pacman:
+        update_cache: true
+        upgrade: true
+
+    - name: Install packages using pacman.
+      community.general.pacman:
+        name: "{{ pacman_packages }}"
+        state: present
+        update_cache: true # apt update
+
+    - name: Ensure fonts directory
+      ansible.builtin.file:
+        path: "~{{ remote_regular_user }}/.fonts"
+        state: directory
+        mode: "0755"
+        owner: "{{ remote_regular_user }}"
+
+    - name: Check if Hack Nerd Font files already exist in fonts dir.
+      ansible.builtin.find:
+        paths: "{{ fonts_dir }}"
+        patterns: "Hack*Nerd*.ttf"
+        recurse: false
+      register: hack_fonts_found
+
+    - name: Download Hack Nerd Font zip if not present.
+      ansible.builtin.get_url:
+        url: "{{ hack_nerd_font_url }}"
+        dest: "{{ tmp_download_path }}"
+        mode: "0644"
+      when: hack_fonts_found.matched == 0
+
+    - name: Unarchive Hack zip into fonts dir
+      ansible.builtin.unarchive:
+        src: "{{ tmp_download_path }}"
+        dest: "{{ fonts_dir }}"
+        remote_src: true
+        extra_opts: ["-o"]
+      when: hack_fonts_found.matched == 0
+
+    - name: Set correct permissions for font files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        owner: "{{ remote_regular_user }}"
+        group: "{{ remote_regular_user }}"
+        mode: "0644"
+      loop: "{{ lookup('fileglob', fonts_dir + '/*.ttf', wantlist=True) }}"
+      when: hack_fonts_found.matched == 0
+
+    - name: Refresh font cache
+      ansible.builtin.command: fc-cache -fv
+      changed_when: true
+      when: hack_fonts_found.matched == 0
+
+    - name: Creat .ssh directory.
+      ansible.builtin.file:
+        path: "/home/{{ remote_regular_user }}/.ssh" # used quotes because of var
+        owner: "{{ remote_regular_user }}"
+        group: "{{ remote_regular_user }}"
+        state: directory
+        mode: '0700'
+
+# you can't use file module becuase it won't create an empty file. You need to copy an "empty file" file with the copy module instead
+    - name: Creat authorized_keys file for the new user.
+      ansible.builtin.copy:
+        content: "" # this makes the file empty
+        dest: "/home/{{ remote_regular_user }}/.ssh/authorized_keys" # used quotes because of var
+        owner: "{{ remote_regular_user }}"
+        group: "{{ remote_regular_user }}"
+        force: false
+        mode: '0600'
+
+    - name: Copy the public key for the new user.
+      ansible.builtin.lineinfile:
+        path: "/home/{{ remote_regular_user }}/.ssh/authorized_keys"
+        line: "{{ server_setup_pub_key }}"
+        state: present
+
+    - name: Passwordless sudo for the new user.
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: '"{{ remote_regular_user }}" ALL=(ALL) NOPASSWD: ALL'
+        validate: /usr/sbin/visudo -cf %s
+        # Might be better to create a backup of default config and copy the desired /etc/ssh/sshd_config ?
+    - name: Allow ssh for non-root users with pubkey only.
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item['regexp'] }}"
+        line: "{{ item['line'] }}"
+        state: present
+      with_items:
+        - regexp: '^PermitRootLogin yes'
+          line: 'PermitRootLogin no'
+        - regexp: '^#PubkeyAuthentication yes'
+          line: 'PubkeyAuthentication yes'
+        - regexp: '^PermitRootLogin yes'
+          line: 'PermitRootLogin no'
+        - regexp: '^#Passwordauthentication yes'
+          line: 'Passwordauthentication no'
+      notify: Restart ssh
