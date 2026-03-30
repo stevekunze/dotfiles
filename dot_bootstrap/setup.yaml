@@ -17,7 +17,7 @@
   tasks:
     - name: Get my Username.
       ansible.builtin.set_fact:
-        remote_regular_user: "{{ ansible_env['SUDO_USER'] or ansible_user_id }}"
+        remote_regular_user: "{{ ansible_facts['env']['USER'] }}"
 
     - name: Run the equivalent of "pacman -Syu" as a separate step.
       community.general.pacman:
@@ -46,7 +46,7 @@
 
     - name: Download Hack Nerd Font zip if not present.
       ansible.builtin.get_url:
-        url: "{{ hack_nerd_font_url }}"
+        url: "{{ nerd_font_url }}"
         dest: "{{ tmp_download_path }}"
         mode: "0644"
       when: hack_fonts_found.matched == 0
@@ -103,7 +103,7 @@
         state: present
         line: '"{{ remote_regular_user }}" ALL=(ALL) NOPASSWD: ALL'
         validate: /usr/sbin/visudo -cf %s
-        # Might be better to create a backup of default config and copy the desired /etc/ssh/sshd_config ?
+
     - name: Allow ssh for non-root users with pubkey only.
       ansible.builtin.lineinfile:
         path: /etc/ssh/sshd_config

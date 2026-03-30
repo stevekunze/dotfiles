@@ -4,9 +4,6 @@ pacman_packages: # insert a list of packages here
   - micro
   - helix
   - btop
-  - curl
-  - wget
-  - npm
   - unzip
   - fastfetch
   - superfile
@@ -14,7 +11,7 @@ pacman_packages: # insert a list of packages here
   - chezmoi
   - git
   - lazygit
-  - nexcloud-desktop
+  - nextcloud-client
   - starship
   - fzf
   - zsh
@@ -30,11 +27,11 @@ pacman_packages: # insert a list of packages here
   - libreoffice-still
   - yt-dlp
   - restic
-  - timehsift
+  - timeshift
   - keepassxc
-  - obs-project
+  - obs-studio
   - brave-browser
-hack_nerd_font_filename: "Hack.zip"
-hack_nerd_font_url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip"
+nerd_font_filename: "Hack.zip" 
+nerd_font_url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip"
 fonts_dir: "{{ lookup('env','HOME') }}/.fonts"
-tmp_download_path: "/tmp/{{ hack_nerd_font_filename }}"
+tmp_download_path: "/tmp/{{ nerd_font_filename }}"
