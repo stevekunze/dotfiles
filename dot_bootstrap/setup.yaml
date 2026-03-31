@@ -47,13 +47,13 @@
     - name: Download Hack Nerd Font zip if not present.
       ansible.builtin.get_url:
         url: "{{ nerd_font_url }}"
-        dest: "{{ tmp_download_path }}"
+        dest: "{{ fonts_dir }}"
         mode: "0644"
       when: hack_fonts_found.matched == 0
 
     - name: Unarchive Hack zip into fonts dir
       ansible.builtin.unarchive:
-        src: "{{ tmp_download_path }}"
+        src: "{{ fonts_dir }}"
         dest: "{{ fonts_dir }}"
         remote_src: true
         extra_opts: ["-o"]

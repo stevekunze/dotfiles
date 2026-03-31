@@ -35,4 +35,4 @@ yay_packages:
 nerd_font_filename: "Hack.zip" 
 nerd_font_url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip"
 fonts_dir: "{{ lookup('env','HOME') }}/.fonts"
-tmp_download_path: "/tmp/{{ nerd_font_filename }}"
+
