@@ -53,7 +53,7 @@
 
     - name: Unarchive Hack zip into fonts dir
       ansible.builtin.unarchive:
-        src: "{{ fonts_dir }}"
+        src: "{{ fonts_dir }}/{{ nerd_font_filename }}"
         dest: "{{ fonts_dir }}"
         remote_src: true
         extra_opts: ["-o"]
