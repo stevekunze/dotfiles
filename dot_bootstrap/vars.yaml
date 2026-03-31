@@ -18,6 +18,7 @@ pacman_packages: # insert a list of packages here
   - zoxide
   - eza
   - sshfs
+  - vscodium
   - id3v2
   - cmus
   - tldr
@@ -29,9 +30,9 @@ pacman_packages: # insert a list of packages here
   - timeshift
   - keepassxc
   - obs-studio
+  - brave-browser
 yay_packages: 
   - vscodium
-  - brave-bin
 nerd_font_filename: "Hack.zip" 
 nerd_font_url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip"
 fonts_dir: "{{ lookup('env','HOME') }}/.fonts"
