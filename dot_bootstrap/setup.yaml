@@ -32,7 +32,7 @@
 
     - name: Ensure fonts directory
       ansible.builtin.file:
-        path: "~{{ remote_regular_user }}/.fonts"
+        path: "{{ fonts_dir }}"
         state: directory
         mode: "0755"
         owner: "{{ remote_regular_user }}"
