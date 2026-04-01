@@ -20,7 +20,7 @@
       ansible.builtin.set_fact:
         remote_regular_user: "{{ ansible_facts['env']['USER'] }}"
 
-    - name: Run the equivalent of "pacman -Syu" as a separate step.
+    - name: Run the equivalent of "pacman -Syu".
       community.general.pacman:
         update_cache: true
         upgrade: true
@@ -33,7 +33,7 @@
         update_cache: true # apt update
       become: true
 
-    - name: Ensure fonts directory
+    - name: Ensure fonts directory exists.
       ansible.builtin.file:
         path: "{{ fonts_dir }}"
         state: directory
@@ -54,7 +54,7 @@
         mode: "0644"
       when: hack_fonts_found.matched == 0
 
-    - name: Unarchive Hack zip into fonts dir
+    - name: Unarchive Hack zip into fonts dir.
       ansible.builtin.unarchive:
         src: "{{ fonts_dir }}/{{ nerd_font_filename }}"
         dest: "{{ fonts_dir }}"
@@ -62,7 +62,7 @@
         extra_opts: ["-o"]
       when: hack_fonts_found.matched == 0
 
-    - name: Set correct permissions for font files
+    - name: Set correct permissions for font files.
       ansible.builtin.file:
         path: "{{ item }}"
         owner: "{{ remote_regular_user }}"
@@ -71,7 +71,7 @@
       loop: "{{ lookup('fileglob', fonts_dir + '/*.ttf', wantlist=True) }}"
       when: hack_fonts_found.matched == 0
 
-    - name: Refresh font cache
+    - name: Refresh font cache.
       ansible.builtin.command: fc-cache -fv
       changed_when: true
       when: hack_fonts_found.matched == 0
@@ -94,7 +94,7 @@
         force: false
         mode: '0600'
 
-    - name: Passwordless sudo for the new user.
+    - name: Passwordless sudo.
       ansible.builtin.lineinfile:
         path: /etc/sudoers
         state: present
