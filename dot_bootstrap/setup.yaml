@@ -3,13 +3,14 @@
   hosts: localhost
   gather_facts: true
   connection: local
-  
+
 
   handlers:
     - name: Restart ssh
       ansible.builtin.service:
         name: 'sshd'
         state: restarted
+      become: true
 
   vars_files:
     vars.yaml
@@ -125,4 +126,3 @@
           line: 'Passwordauthentication no'
       become: true
       notify: Restart ssh
-
